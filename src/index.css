@@ -11,3 +11,36 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.query-dropdown {
+    display: inline;
+    margin: auto 0.2rem;
+}
+
+.inline-query-span > span {
+    vertical-align: middle;
+}
+
+.inline-query-span > button {
+    margin-left: 0.8rem;
+}
+
+.container {
+    padding-top:3rem;
+}
+
+.sql-result-table p {
+    text-align: center;
+    font-style: italic;
+}
+
+.sql-result-table .limit {
+    max-height:70vh;
+    overflow-y: scroll;
+}
+
+.tab-content {
+    border: 1px solid lightgray;
+    padding:0.8rem;
+    padding-top:2rem;
+}
