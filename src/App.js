@@ -3,6 +3,8 @@ import React from 'react';
 import * as sql from './SqlApi';
 import Q1PokedexLookup from './components/Q1PokedexLookup';
 import { Container, Navbar, Tabs, Tab } from 'react-bootstrap';
+import Q2MoveAilmentLookup from './components/Q2MoveAilmentLookup';
+import Q3MoveStatChangeLookup from './components/Q3MoveStatChangeLookup';
 
 export default class App extends React.Component {
 
@@ -31,11 +33,13 @@ export default class App extends React.Component {
                     <Container>
                         <Tabs defaultActiveKey="q1">
                             <Tab eventKey="q1" title="Pokedex Lookup">
-                            <Q1PokedexLookup/>
+                                <Q1PokedexLookup/>
                             </Tab>
-                            <Tab eventKey="q2" title="Profile">
+                            <Tab eventKey="q2" title="Pokemon Move Ailment Lookup">
+                                <Q2MoveAilmentLookup/>
                             </Tab>
-                            <Tab eventKey="q3" title="Contact">
+                            <Tab eventKey="q3" title="Pokemon Move Stat Lookup">
+                                <Q3MoveStatChangeLookup/>
                             </Tab>
                         </Tabs>
                     </Container>
