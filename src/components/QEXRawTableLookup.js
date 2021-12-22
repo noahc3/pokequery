@@ -4,33 +4,24 @@ import SqlResultTable from './SqlResultTable';
 import { Button } from 'react-bootstrap';
 import QueryOptionsDropdown from './QueryOptionsDropdown';
 
-export default class Q1PokedexLookup extends React.Component {
+export default class QEXRawTableLookup extends React.Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            pokedex: 1,
+            table: "ailments",
             result: null
         }
     }
 
     runQuery() {
-        console.log(this.state.pokedex);
         const result = sql.exec(
-            `select distinct pokedex_number "Dex Number", ps.name Name, genus Genus, group_concat(t.name, "; ") "Types", ps.generation_id Gen
-            from pokemon p
-            left join pokemon_species ps on p.species_id = ps.id
-            left join pokemon_dex_numbers pdn on ps.id = pdn.species_id
-            left join pokemon_types pt on p.id = pt.pokemon_id
-            left join types t on pt.type_id = t.id
-            where pdn.pokedex_id = ${this.state.pokedex}
-            group by p.id
-            order by pokedex_number;`)[0];
+            `select * from ${this.state.table};`)[0];
         this.setState({result: result});  
     }
 
-    render() {
+    render() { 
         const result = this.state.result;
         let table;
 
@@ -45,12 +36,12 @@ export default class Q1PokedexLookup extends React.Component {
         return (
             <div>
                 <div className='inline-query-span'>
-                    <span>Show all Pokemon in the</span> 
+                    <span>Show all data for the </span> 
                     <QueryOptionsDropdown 
-                        onChange={(x) => {this.setState({pokedex: x})}} 
-                        query="select id, name from pokedexes;"/> 
-                    <span>Pokedex.</span>
-                    <p/>
+                        onChange={(x) => {this.setState({table: x})}} 
+                        query={`select distinct tbl_name, tbl_name from sqlite_master where type = "table";`}/> 
+                    <span>table.</span>
+                    <p/>                    
                     <Button size="sm" onClick={() => {this.runQuery()}}>Query</Button>
                 </div>
                 <hr/>

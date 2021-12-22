@@ -4,33 +4,33 @@ import SqlResultTable from './SqlResultTable';
 import { Button } from 'react-bootstrap';
 import QueryOptionsDropdown from './QueryOptionsDropdown';
 
-export default class Q1PokedexLookup extends React.Component {
+export default class Q7PopularPokemonLookup extends React.Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            pokedex: 1,
+            version: 1,
             result: null
         }
     }
 
     runQuery() {
-        console.log(this.state.pokedex);
         const result = sql.exec(
-            `select distinct pokedex_number "Dex Number", ps.name Name, genus Genus, group_concat(t.name, "; ") "Types", ps.generation_id Gen
-            from pokemon p
+            `select ps.name, count(*) "Possible Locations" from pokemon p
+            left join (
+                select distinct e2.pokemon_id "pid", e2.location_area_id "lid"
+                from encounters e2
+                where version_id = ${this.state.version}
+                ) e on p.id = e.pid
             left join pokemon_species ps on p.species_id = ps.id
-            left join pokemon_dex_numbers pdn on ps.id = pdn.species_id
-            left join pokemon_types pt on p.id = pt.pokemon_id
-            left join types t on pt.type_id = t.id
-            where pdn.pokedex_id = ${this.state.pokedex}
+            where p.id in (select pokemon_id from encounters e where version_id = ${this.state.version})
             group by p.id
-            order by pokedex_number;`)[0];
+            order by "Possible Locations" desc;`)[0];
         this.setState({result: result});  
     }
 
-    render() {
+    render() { 
         const result = this.state.result;
         let table;
 
@@ -45,12 +45,14 @@ export default class Q1PokedexLookup extends React.Component {
         return (
             <div>
                 <div className='inline-query-span'>
-                    <span>Show all Pokemon in the</span> 
+                    <span>Show how many locations each Pokemon can be encounted at in Pokemon </span> 
                     <QueryOptionsDropdown 
-                        onChange={(x) => {this.setState({pokedex: x})}} 
-                        query="select id, name from pokedexes;"/> 
-                    <span>Pokedex.</span>
-                    <p/>
+                        onChange={(x) => {this.setState({version: x})}} 
+                        query="select id, name from versions v where v.id in (select e.version_id from encounters e);"/> 
+                    <span>.</span>
+
+                    <p className='italics'>In this context, a "location" may be a specific patch of grass, a specific fishing pond, a specific building with an NPC interaction, etc.</p>
+                    
                     <Button size="sm" onClick={() => {this.runQuery()}}>Query</Button>
                 </div>
                 <hr/>

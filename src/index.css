@@ -27,12 +27,16 @@ code {
     display:inline;
 }
 
+.inline-query-span {
+    text-align: center;
+}
+
 .inline-query-span > span {
     vertical-align: middle;
 }
 
 .inline-query-span > button {
-    margin-left: 0.8rem;
+    min-width: 200px;
 }
 
 .container {
@@ -46,7 +50,7 @@ code {
 }
 
 .sql-result-table .limit {
-    max-height:70vh;
+    max-height:60vh;
     overflow-y: scroll;
 }
 
@@ -59,4 +63,8 @@ code {
 .dropdown-menu.show {
     max-height:20em;
     overflow-y: auto;
+}
+
+.italics {
+    font-style: italic;
 }

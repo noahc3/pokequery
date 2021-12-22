@@ -64,7 +64,7 @@ export default class Q4EffectiveMoveLookup extends React.Component {
                         min={0}
                         max={100}/> 
                     <span> percent.</span>
-
+                    <p/>
                     <Button size="sm" onClick={() => {this.runQuery()}}>Query</Button>
                 </div>
                 <hr/>

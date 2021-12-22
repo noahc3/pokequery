@@ -62,7 +62,7 @@ export default class Q3MoveStatChangeLookup extends React.Component {
                         onChange={(x) => {this.setState({target: x})}} 
                         query="select mt.id, mt.name from move_targets mt where mt.id in (select distinct target_id from moves m left join move_stat_changes msc on m.id = msc.move_id where msc.stat_id not null);"/> 
                     <span>.</span>
-
+                    <p/>
                     <Button size="sm" onClick={() => {this.runQuery()}}>Query</Button>
                 </div>
                 <hr/>

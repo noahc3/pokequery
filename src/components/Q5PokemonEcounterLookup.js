@@ -75,7 +75,7 @@ export default class Q5PokemonEcounterLookup extends React.Component {
                         onChange={(x) => {this.setState({version: x})}} 
                         query="select id, name from versions v where v.id in (select e.version_id from encounters e);"/> 
                     <span>.</span>
-
+                    <p/>
                     <Button size="sm" onClick={() => {this.runQuery()}}>Query</Button>
                 </div>
                 <hr/>

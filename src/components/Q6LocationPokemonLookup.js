@@ -61,7 +61,7 @@ export default class Q6LocationPokemonLookup extends React.Component {
                         onChange={(x) => {this.setState({location: x})}} 
                         query={`select distinct l.id, l.name from encounters e left join location_areas la on e.location_area_id = la.id left join locations l on la.location_id = l.id where e.version_id = ${this.state.version};`}/> 
                     <span>.</span>
-
+                    <p/>
                     <Button size="sm" onClick={() => {this.runQuery()}}>Query</Button>
                 </div>
                 <hr/>

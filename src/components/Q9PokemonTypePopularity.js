@@ -4,33 +4,32 @@ import SqlResultTable from './SqlResultTable';
 import { Button } from 'react-bootstrap';
 import QueryOptionsDropdown from './QueryOptionsDropdown';
 
-export default class Q1PokedexLookup extends React.Component {
+export default class Q9PokemonTypePopularity extends React.Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            pokedex: 1,
+            generation: 1,
             result: null
         }
     }
 
     runQuery() {
-        console.log(this.state.pokedex);
         const result = sql.exec(
-            `select distinct pokedex_number "Dex Number", ps.name Name, genus Genus, group_concat(t.name, "; ") "Types", ps.generation_id Gen
-            from pokemon p
+            `select t.name "Pokemon", count(*) "Number of Pokemon Introduced" from pokemon p
             left join pokemon_species ps on p.species_id = ps.id
-            left join pokemon_dex_numbers pdn on ps.id = pdn.species_id
+            left join generations g on ps.generation_id = g.id
             left join pokemon_types pt on p.id = pt.pokemon_id
             left join types t on pt.type_id = t.id
-            where pdn.pokedex_id = ${this.state.pokedex}
-            group by p.id
-            order by pokedex_number;`)[0];
+            where ps.generation_id = ${this.state.generation}
+            and p.id < 10000
+            group by t.id
+            order by "Number of Pokemon Introduced" desc;`)[0];
         this.setState({result: result});  
     }
 
-    render() {
+    render() { 
         const result = this.state.result;
         let table;
 
@@ -45,12 +44,14 @@ export default class Q1PokedexLookup extends React.Component {
         return (
             <div>
                 <div className='inline-query-span'>
-                    <span>Show all Pokemon in the</span> 
+                    <span>Show the number of Pokemon of each type introduced in </span> 
                     <QueryOptionsDropdown 
-                        onChange={(x) => {this.setState({pokedex: x})}} 
-                        query="select id, name from pokedexes;"/> 
-                    <span>Pokedex.</span>
-                    <p/>
+                        onChange={(x) => {this.setState({generation: x})}} 
+                        query="select id, name from generations;"/> 
+                    <span>.</span>
+
+                    <p className='italics'>In situations where Pokemon typings have changed (ex. Fairy type), the newest type data is used. Forms (Megas, Alolan, Galarian, etc) are excluded.</p>
+                    
                     <Button size="sm" onClick={() => {this.runQuery()}}>Query</Button>
                 </div>
                 <hr/>

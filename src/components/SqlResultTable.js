@@ -32,9 +32,23 @@ export default class SqlResultTable extends React.Component {
     render() {
         const cols = this.props.cols;
         const rows = this.props.rows;
+
+        let downloadBtn;
+
+        if (rows.length > 100000) {
+            downloadBtn = <Button disabled size="sm"><span className="italics">CSV dump unavailable, too large (&gt;100000 rows).</span></Button>
+        } else if (rows.length > 2000) {
+            downloadBtn = <Button color="warning" size="sm" onClick={() => this.saveAsCsv()}>Dump as CSV <span className="italics">(may take up to 30 seconds).</span></Button>
+        } else {
+            downloadBtn = <Button size="sm" onClick={() => this.saveAsCsv()}>Dump as CSV</Button>
+        }
+
         return (
             <div className="sql-result-table">
-                <div><p>Got {rows.length} results. <Button size="sm" onClick={() => this.saveAsCsv()}>Dump as CSV</Button></p></div>
+                <div><p>Got {rows.length} results. {downloadBtn}</p></div>
+                {rows.length > 1500 &&
+                    <p>Warning: Too many rows to display, only first 1500 rows are shown. All rows will be included in CSV dump.</p>
+                }
                 <div className="limit">
                     <Table striped bordered hover size="sm">
                         <thead>
@@ -43,7 +57,7 @@ export default class SqlResultTable extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {rows.map((row, i) => (
+                            {rows.slice(0, 2000).map((row, i) => (
                                 <tr key={i}>
                                     {row.map((value, i) => (
                                         <td key={i}>{value}</td>

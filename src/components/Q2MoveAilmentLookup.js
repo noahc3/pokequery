@@ -55,7 +55,7 @@ export default class Q2MoveAilmentLookup extends React.Component {
                         onChange={(x) => {this.setState({ailment: x})}} 
                         query="select a.id, a.name from ailments a where a.id in (select distinct m.ailment_id from moves m where m.ailment_id not null and m.ailment_id > 0)"/> 
                     <span>ailment.</span>
-
+                    <p/>
                     <Button size="sm" onClick={() => {this.runQuery()}}>Query</Button>
                 </div>
                 <hr/>
