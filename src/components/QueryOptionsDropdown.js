@@ -8,6 +8,7 @@ export default class QueryOptionsDropdown extends React.Component {
         
         const query = this.props.query;
         const result = sql.exec(query)[0];
+        this.props.onChange(result.values[0][0]); //set the default value internally
         this.state = {
             options: result.values,
             selectedOption: result.values[0][0],
