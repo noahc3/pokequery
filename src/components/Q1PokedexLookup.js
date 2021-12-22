@@ -18,11 +18,15 @@ export default class Q1PokedexLookup extends React.Component {
     runQuery() {
         console.log(this.state.pokedex);
         const result = sql.exec(
-            `select distinct pokedex_number "Dex Number", name Name, genus Genus, generation_id Gen 
-            from pokemon pkmn 
-            left outer join pokemon_species ps on pkmn.species_id = ps.id 
-            left outer join pokemon_dex_numbers pdn on ps.id = pdn.species_id 
-            where pdn.pokedex_id = ${this.state.pokedex} order by "Dex Number";`)[0];
+            `select distinct pokedex_number "Dex Number", ps.name Name, genus Genus, group_concat(t.name, "; ") "Types", ps.generation_id Gen
+            from pokemon p
+            left join pokemon_species ps on p.species_id = ps.id
+            left join pokemon_dex_numbers pdn on ps.id = pdn.species_id
+            left join pokemon_types pt on p.id = pt.pokemon_id
+            left join types t on pt.type_id = t.id
+            where pdn.pokedex_id = ${this.state.pokedex}
+            group by p.id
+            order by pokedex_number;`)[0];
         this.setState({result: result});  
     }
 

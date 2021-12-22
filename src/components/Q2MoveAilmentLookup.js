@@ -18,7 +18,7 @@ export default class Q2MoveAilmentLookup extends React.Component {
 
     runQuery() {
         const result = sql.exec(
-            `select distinct ps.name Pokemon, m.name Move, m.ailment_chance || '%' "Ailment Chance"
+            `select distinct ps.name Pokemon, m.name Move, CASE WHEN m.ailment_chance = 0 THEN 100 ELSE m.ailment_chance END || '%' "Success Chance"
             from pokemon p
             left join pokemon_species ps on p.species_id = ps.id
             left join pokemon_moves pm on p.id = pm.pokemon_id
@@ -27,8 +27,7 @@ export default class Q2MoveAilmentLookup extends React.Component {
             left join types t on m.type_id = t.id
             where m.type_id = ${this.state.type}
             and a.id = ${this.state.ailment}
-            and m.ailment_chance > 0
-            order by p.id;`)[0];
+            order by m.id;`)[0];
         this.setState({result: result});  
     }
 
@@ -54,7 +53,7 @@ export default class Q2MoveAilmentLookup extends React.Component {
                     <span>type move which inflicts the </span>
                     <QueryOptionsDropdown 
                         onChange={(x) => {this.setState({ailment: x})}} 
-                        query="select id, name from ailments;"/> 
+                        query="select a.id, a.name from ailments a where a.id in (select distinct m.ailment_id from moves m where m.ailment_id not null and m.ailment_id > 0)"/> 
                     <span>ailment.</span>
 
                     <Button size="sm" onClick={() => {this.runQuery()}}>Query</Button>

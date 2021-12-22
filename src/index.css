@@ -42,6 +42,7 @@ code {
 .sql-result-table p {
     text-align: center;
     font-style: italic;
+    vertical-align: middle;
 }
 
 .sql-result-table .limit {
