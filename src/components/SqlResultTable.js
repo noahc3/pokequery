@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Pagination } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 
 
 export default class SqlResultTable extends React.Component {

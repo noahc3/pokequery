@@ -17,6 +17,16 @@ code {
     margin: auto 0.2rem;
 }
 
+.nud-input {
+    display: inline;
+    max-width: 50px;
+}
+
+.nud-input > input {
+    max-width:70px;
+    display:inline;
+}
+
 .inline-query-span > span {
     vertical-align: middle;
 }
@@ -43,4 +53,9 @@ code {
     border: 1px solid lightgray;
     padding:0.8rem;
     padding-top:2rem;
+}
+
+.dropdown-menu.show {
+    max-height:20em;
+    overflow-y: auto;
 }

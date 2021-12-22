@@ -45,10 +45,6 @@ export default class Q3MoveStatChangeLookup extends React.Component {
         } else {
             table = (<div className="sql-result-table"><p>Results will appear here.</p></div>);
         }
-        
-
-
-        console.log(result);
 
         return (
             <div>

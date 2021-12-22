@@ -5,6 +5,8 @@ import Q1PokedexLookup from './components/Q1PokedexLookup';
 import { Container, Navbar, Tabs, Tab } from 'react-bootstrap';
 import Q2MoveAilmentLookup from './components/Q2MoveAilmentLookup';
 import Q3MoveStatChangeLookup from './components/Q3MoveStatChangeLookup';
+import Q4EffectiveMoveLookup from './components/Q4EffectiveMoveLookup';
+import Q5PokemonEcounterLookup from './components/Q5PokemonEcounterLookup';
 
 export default class App extends React.Component {
 
@@ -40,6 +42,12 @@ export default class App extends React.Component {
                             </Tab>
                             <Tab eventKey="q3" title="Pokemon Move Stat Lookup">
                                 <Q3MoveStatChangeLookup/>
+                            </Tab>
+                            <Tab eventKey="q4" title="Effective Move Lookup">
+                                <Q4EffectiveMoveLookup/>
+                            </Tab>
+                            <Tab eventKey="q5" title="Pokemon Encounter Lookup">
+                                <Q5PokemonEcounterLookup/>
                             </Tab>
                         </Tabs>
                     </Container>
