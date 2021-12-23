@@ -30,7 +30,8 @@ export default class Q3MoveStatChangeLookup extends React.Component {
             where m.type_id = ${this.state.type}
             and mt.id = ${this.state.target}
             and s.id = ${this.state.stat}
-            and msc.change not null;`)[0];
+            and msc.change not null
+            order by m.id;`)[0];
         this.setState({result: result});  
     }
 
