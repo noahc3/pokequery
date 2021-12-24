@@ -8,40 +8,17 @@ export default class SqlResultTable extends React.Component {
     saveAsCsv() {
         const cols = this.props.cols;
         const rows = this.props.rows;
-        let csv = "";
 
-        cols.forEach((x) => {
-            csv += x + ","
-        });
+        let blob = new Blob([[cols.join(",")].concat(rows.map(x => x.join(","))).join("\n")], {type: "text/plain;charset=utf-8"});
 
-        csv = csv.slice(0, -1);
-        csv += "\n";
-
-        rows.forEach((r) => {
-            r.forEach((x) => {
-                csv += x + ","
-            });
-
-            csv = csv.slice(0, -1);
-            csv += "\n";
-        });
-
-        saveAs(new Blob([csv], {type: "text/plain;charset=utf-8"}), "output.csv");
-    }
+        saveAs(blob, "output.csv");
+    }i
 
     render() {
         const cols = this.props.cols;
         const rows = this.props.rows;
 
-        let downloadBtn;
-
-        if (rows.length > 100000) {
-            downloadBtn = <Button disabled size="sm"><span className="italics">CSV dump unavailable, too large (&gt;100000 rows).</span></Button>
-        } else if (rows.length > 2000) {
-            downloadBtn = <Button color="warning" size="sm" onClick={() => this.saveAsCsv()}>Dump as CSV <span className="italics">(may take up to 30 seconds).</span></Button>
-        } else {
-            downloadBtn = <Button size="sm" onClick={() => this.saveAsCsv()}>Dump as CSV</Button>
-        }
+        let downloadBtn = <Button size="sm" onClick={() => this.saveAsCsv()}>Dump as CSV</Button>
 
         return (
             <div className="sql-result-table">
